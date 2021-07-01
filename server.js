@@ -15,6 +15,10 @@ app.use('/peerjs', peerServer);
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
+//landing
+app.get('/landing',(req,res)=>{
+  res.render("landing");
+})
 app.get('/', (req, res) => {
   res.redirect(`/${uuidV4()}`)
 })
@@ -23,14 +27,16 @@ app.get('/:room', (req, res) => {
   res.render('room', { roomId: req.params.room })
 })
 
+
+
 io.on('connection', socket => {
-  socket.on('join-room', (roomId, userId) => {
+  socket.on('join-room', (roomId, userId,username) => {
     socket.join(roomId)
     socket.to(roomId).broadcast.emit('user-connected', userId);
     // messages
-    socket.on('message', (message) => {
+    socket.on('message', (message,userId) => {
       //send message to the same room
-      io.to(roomId).emit('createMessage', message)
+      io.to(roomId).emit('createMessage', message,username)
   }); 
 
     socket.on('disconnect', () => {
