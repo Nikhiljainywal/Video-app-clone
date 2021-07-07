@@ -135,6 +135,13 @@ const setPlayVideo = () => {
   `
   document.querySelector('.main__video_button').innerHTML = html;
 }
+const inviteButton=document.getElementById("invite")
+inviteButton.addEventListener("click", (e) => {
+  prompt(
+    "Copy this link and send it to people you want to meet with",
+    window.location.href
+  );
+});
 
 const leave = ()=>{
   location.replace("/landing")
